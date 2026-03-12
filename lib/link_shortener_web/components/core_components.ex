@@ -116,6 +116,20 @@ defmodule LinkShortenerWeb.CoreComponents do
     end
   end
 
+  attr :value, :string, required: true
+
+  def copy_to_clipboard(assigns) do
+    assigns = assigns |> assign(:uuid, Ecto.UUID.generate())
+
+    ~H"""
+    <textarea class="hidden" id={@uuid}>{@value}</textarea>
+
+    <a phx-click={JS.dispatch("phx:copy", to: "##{@uuid}")} class="cursor-pointer">
+      📋 copy to clipboard
+    </a>
+    """
+  end
+
   @doc """
   Renders an input with label and error messages.
 

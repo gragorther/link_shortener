@@ -22,7 +22,7 @@ defmodule LinkShortenerWeb.Router do
     get "/:slug", RedirectController, :redirect_request
 
     scope "/shortenings", ShorteningLive do
-      live "/:id", Show
+      live "/:slug", Show
     end
   end
 

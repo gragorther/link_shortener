@@ -28,7 +28,7 @@ defmodule LinkShortenerWeb.ShorteningLive.Form do
   def mount(params, _session, socket) do
     {:ok,
      socket
-     |> assign(:return_to, return_to(params["return_to"]))
+     # |> assign(:return_to, return_to(params["return_to"]))
      |> apply_action(socket.assigns.live_action, params)}
   end
 
@@ -68,8 +68,8 @@ defmodule LinkShortenerWeb.ShorteningLive.Form do
       {:ok, shortening} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Shortening updated successfully")
-         |> push_navigate(to: return_path(socket.assigns.return_to, shortening))}
+         #  |> put_flash(:info, "Shortening updated successfully")
+         |> push_navigate(to: return_path(shortening))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -82,13 +82,12 @@ defmodule LinkShortenerWeb.ShorteningLive.Form do
         {:noreply,
          socket
          |> put_flash(:info, "Shortening created successfully")
-         |> push_navigate(to: return_path(socket.assigns.return_to, shortening))}
+         |> push_navigate(to: return_path(shortening))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
 
-  defp return_path("index", _shortening), do: ~p"/"
-  defp return_path("show", shortening), do: ~p"/shortenings/#{shortening}"
+  defp return_path(shortening), do: ~p"/shortenings/#{shortening.slug}"
 end

@@ -38,6 +38,15 @@ if config_env() == :prod do
     # pool_count: 4,
     socket_options: maybe_ipv6
 
+  base_url = System.get_env("BASE_URL")
+
+  if base_url == nil do
+    raise """
+    No BASE_URL provided
+    """
+  end
+
+  config(:base_url, base_url)
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
   # want to use a different value for prod and you most likely don't want
